@@ -1,6 +1,5 @@
 import axios from "axios";
 import { API_URL } from "../constants";
-import { store } from "../store/store.js";
 
 async function RegisterFetch(email, password) {
   try {
@@ -35,7 +34,7 @@ async function LoginFetch(email, password) {
   }
 }
 
-async function LogoutFetch() {
+async function logoutFetch() {
   try {
     const response = await axios.delete(`${API_URL}/sign_out`);
     return response.data;
@@ -78,7 +77,7 @@ async function ResetPasswordFetch(email) {
 export {
   EditPasswordFetch,
   LoginFetch,
-  LogoutFetch,
   RegisterFetch,
   ResetPasswordFetch,
+  logoutFetch,
 };

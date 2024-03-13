@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
+import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { useDispatch } from "react-redux";
-import { loginSuccess } from "../actions/authActions";
+import { useDispatch, useSelector } from "react-redux";
+import { loginSuccess } from "../features/authSlice";
 import { LoginFetch } from "../services/authService";
 
 export default function LoginFrom() {
@@ -11,6 +12,8 @@ export default function LoginFrom() {
     password: "",
   });
   const dispatch = useDispatch();
+  const test = useSelector((state) => state.auth);
+  console.log(test.token);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,8 +22,6 @@ export default function LoginFrom() {
       [name]: value,
     }));
   };
-
-  useEffect(() => {}, [formData]);
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -30,6 +31,8 @@ export default function LoginFrom() {
       );
       if (token) {
         dispatch(loginSuccess(token)); // Dispatcher l'action avec le token
+        localStorage.setItem("token", token);
+        Cookies.set("token", token);
         console.log(token);
         console.log("You are logged in.", data.message);
       } else {
